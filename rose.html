@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine</title>
+<style>
+  body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#ffe6eb;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    text-align:center;
+    overflow:hidden;
+  }
+
+  .hidden{ display:none; }
+
+  /* Envelope */
+  .envelope{
+    width:260px;
+    height:180px;
+    background:#ff4d6d;
+    position:relative;
+    border-radius:10px;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+  }
+  .flap{
+    position:absolute;
+    top:0;
+    left:0;
+    width:0;
+    height:0;
+    border-left:130px solid transparent;
+    border-right:130px solid transparent;
+    border-top:90px solid #ff758f;
+  }
+  .heart{
+    position:absolute;
+    top:65px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:40px;
+    color:white;
+  }
+
+  /* Card */
+  .card{
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    width:340px;
+    position:relative;
+    z-index:2;
+  }
+
+  button{
+    padding:12px 20px;
+    margin:10px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+  }
+
+  .yes{
+    background:#2ecc71;
+    color:white;
+    position:absolute;
+  }
+
+  .mainYes{
+    position:relative;
+  }
+
+  .no{
+    background:#e74c3c;
+    color:white;
+  }
+
+  /* Rose */
+  .rose{
+    font-size:90px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Envelope Screen -->
+<div id="envelopeScreen">
+  <div class="envelope" onclick="openEnvelope()">
+    <div class="flap"></div>
+    <div class="heart">❤</div>
+  </div>
+</div>
+
+<!-- Question Screen -->
+<div id="questionScreen" class="hidden">
+  <div class="card">
+    <h2>Will you be my Valentine?</h2>
+    <button class="mainYes" onclick="showRose()">Yes</button>
+    <button class="no" id="noBtn" onclick="noClick()">No</button>
+  </div>
+</div>
+
+<!-- Final Rose Screen -->
+<div id="roseScreen" class="hidden">
+  <div class="card">
+    <div class="rose">🌹</div>
+    <h2>Thank you for being my Valentines.</h2>
+  </div>
+</div>
+
+<script>
+function openEnvelope(){
+  document.getElementById("envelopeScreen").classList.add("hidden");
+  document.getElementById("questionScreen").classList.remove("hidden");
+}
+
+let noState = 0;
+
+function noClick(){
+  const noBtn = document.getElementById("noBtn");
+
+  if(noState === 0){
+    noBtn.textContent = "Are you sure?";
+  }
+  else if(noState === 1){
+    noBtn.textContent = "Really?";
+  }
+  else{
+    spawnYesButton();
+  }
+  noState++;
+}
+
+function spawnYesButton(){
+  const btn = document.createElement("button");
+  btn.textContent = "Yes";
+  btn.className="yes";
+  btn.onclick = showRose;
+
+  // random position on page
+  const maxX = window.innerWidth - 100;
+  const maxY = window.innerHeight - 60;
+
+  btn.style.left = Math.random()*maxX + "px";
+  btn.style.top  = Math.random()*maxY + "px";
+
+  document.body.appendChild(btn);
+}
+
+function showRose(){
+  document.getElementById("questionScreen").classList.add("hidden");
+  document.getElementById("roseScreen").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
